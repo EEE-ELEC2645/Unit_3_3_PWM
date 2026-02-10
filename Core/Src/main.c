@@ -48,11 +48,11 @@ static void example_1_different_frequencies(void)
 {
     printf("Example 1: Testing different PWM frequencies at 50%% duty...\n");
     
-    printf("  100 Hz - LED flashing visible\n");
-    PWM_Set(&pwm_cfg, 5, 50);
+    printf("  10 Hz - LED flashing visible\n");
+    PWM_Set(&pwm_cfg, 10, 50);
     HAL_Delay(2000);
     
-    printf("  500 Hz - LED flashing faster\n");
+    printf("  25 Hz - LED flashing faster\n");
     PWM_Set(&pwm_cfg, 25, 50);
     HAL_Delay(2000);
     

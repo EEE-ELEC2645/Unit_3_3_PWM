@@ -6,12 +6,11 @@ The most important file is [Core/Src/main.c](Core/Src/main.c) which contains the
 
 ## The Project
 
-The program demonstrates LED brightness control using PWM with four interactive examples:
+The program demonstrates LED brightness control using PWM with three interactive examples:
 
-1. **Example 1: Different PWM Frequencies** - LED flashes at different rates (100 Hz, 500 Hz, 1 kHz, 5 kHz)
+1. **Example 1: Different PWM Frequencies** - LED flashes at different rates (5 Hz, 25 Hz, 1 kHz, 5 kHz)
 2. **Example 2: Brightness Control** - Smooth fade up and fade down (0% to 100% duty cycle)
 3. **Example 3: Breathing Effect** - LED smoothly "breathes" in and out like a heartbeat
-4. **(Example 4 was removed in this version)**
 
 Each example runs once at startup, demonstrating different PWM capabilities for controlling light output, motor speed, servo position, and other applications.
 
@@ -23,12 +22,8 @@ Your task is to enhance this PWM lab with custom effects and interactive control
 
 **Your Tasks:**
 1. **Create a custom LED effect** - Design your own animation pattern (e.g., strobe, saw-tooth ramp, pulse train)
-2. **Add joystick or button control** - Make effects interactive (change frequency/brightness with joystick or button)
-3. **Combine with LCD display** - Show current PWM settings (frequency, duty cycle) on the screen
-4. **(Bonus) Multiple LEDs** - Control brightness of multiple LEDs independently using different timers
-5. **(Bonus) Frequency sweep** - Create a frequency sweep effect from minimum to maximum PWM frequency
-
-Submit your enhanced [Core/Src/main.c](Core/Src/main.c) to the Code Submission area on Minerva once completed.
+2. **Combine with LCD display** - Show current PWM settings (frequency, duty cycle) on the screen
+3. **Bonus - Add joystick or button control** - Make effects interactive (change frequency/brightness with joystick or button). Read the value of the Blue Button like in the Magic8Ball example (HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin) or use the Joystick Read functions. 
 
 ## Setup Instructions
 
@@ -38,7 +33,7 @@ Submit your enhanced [Core/Src/main.c](Core/Src/main.c) to the Code Submission a
    - Blinky and LCD Test to ensure the hardware is working first!
 
 2. **Configure the Project**
-   - Open the `BuzzerTest` folder in VS Code (or the unit/project folder containing this lab)
+   - Open the `Unit_3_3_PWM` folder in VS Code (or the unit/project folder containing this lab)
    - When prompted "*Would you like to configure discovered CMake project as STM32Cube project*", click **Yes**
    - Allow the STM32 extension to complete initialization
    - Select **Debug** configuration when prompted
@@ -53,7 +48,7 @@ Submit your enhanced [Core/Src/main.c](Core/Src/main.c) to the Code Submission a
    - Open Run and Debug panel (`Ctrl+Shift+D`)
    - Select **"STM32Cube: STLink GDB Server"** and click Run
    - Continue past breakpoints with **F5** or the play button
-   - Watch the LED on the breadboard and monitor `printf()` output in the Serial Monitor
+   - Watch the LED on the breadboard, LCD display showing "PWM LED Library Test", and monitor `printf()` output in the Serial Monitor
 
 ### Troubleshooting
 
@@ -131,20 +126,23 @@ The project includes a custom PWM control library:
   - `PWM_IsRunning(cfg)` - Check if PWM is currently active
 - See [PWM/PWM.h](PWM/PWM.h) for full API documentation
 
-### LCD Driver (Optional)
+### LCD Driver
 
-The project includes an external ST7789V2 LCD driver for optional display feedback:
+The project includes an external ST7789V2 LCD driver for display feedback:
 - **Location**: [ST7789V2_Driver_STM32L4/](ST7789V2_Driver_STM32L4/)
+- **Usage**: Displays "PWM LED Library Test" on startup
 - **Key Functions**:
-  - `LCD_printString(x, y, text)` - Display text at specified coordinates
-  - `LCD_Clear()` - Clear the display
+  - `LCD_init(cfg)` - Initialize the LCD display
+  - `LCD_printString(text, x, y, palette_index, scale)` - Display text at specified coordinates
+  - `LCD_Fill_Buffer(color)` - Fill the screen buffer with a color
+  - `LCD_Refresh(cfg)` - Update the display with buffer contents
   - See the driver README for complete API documentation
 
 ### Build System
 
 - **Build Tool**: CMake with Ninja generator
 - **Configuration**: [CMakeLists.txt](CMakeLists.txt)
-- **Build Output**: Compiled binary in `build/Debug/BuzzerTest.elf`
+- **Build Output**: Compiled binary in `build/Debug/Unit_3_3_PWM.elf`
 
 ## Serial Communication & Debugging
 
@@ -163,9 +161,10 @@ This example demonstrates the pwm.h library
 The LED uses Timer 4 PWM on Channel 1
 
 Example 1: Testing different PWM frequencies at 50% duty...
-  100 Hz - LED flashing visible
-  500 Hz - LED flashing faster
+  10 Hz - LED flashing visible
+  25 Hz - LED flashing faster
   1000 Hz - Smooth brightness (1kHz)
+  5000 Hz - Very smooth (5kHz)
   ...
 ```
 
