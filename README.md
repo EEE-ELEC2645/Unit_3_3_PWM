@@ -72,7 +72,7 @@ Your task is to enhance this PWM lab with custom effects and interactive control
 
 **Connection Diagram:**
 ```
-Nucleo PB6 ----[220Ω]----[LED +]
+Nucleo PB6 ----[220Ω]------[LED +]
                            [LED -]
                              |
 Nucleo GND ------------------+
